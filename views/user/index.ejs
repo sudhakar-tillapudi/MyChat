@@ -14,18 +14,28 @@
 		<!-- script references -->
 			<script src="js/jquery.min.js"></script>
 			<script src="js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
 
 			<script type="text/javascript">
 			$(document).ready(function () {
-				$.ajax({
-						 type: 'GET',
-						 url: '/GetLoggedInUserInfo',
-						 success: function(result) {
-							 $('#txtUserName').html('Hi, '+result.FirstName+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
-						 }
-			});
+				
+			$('#txtMsgBody').keyup(function(event)
+			{
+				if(event.key == "Enter")
+				{
+					
+					//$('#txtMessages').text();
+					var messages = $('#txtMessages');
+					messages.append("<img class=\"circleImage\" src=\"../../images/502.jpg\"/><span>"+$('#txtMsgBody').val()+"</span></br></br>");
+					messages.append("<span style=\"float:right;padding:8px;\">How are you, im fine </span></br></br>");
+					$('#txtMsgBody').val('');
+					//messages.scrollTop(messages.prop("scrollHeight"));
+					messages.animate({ scrollTop: messages.prop("scrollHeight")}, 1000);
+				}
+		});
 		});
 			</script>
+			
 	</head>
 	<body>
 <%include UserHeader %>
@@ -56,19 +66,21 @@
 <div class="col-md-9"  style="padding-left: 0px;">
 <div class="panel panel-info" style="border-radius: 0px;border-color: lightgray">
     <div class="panel-heading" style="background-color: white;border-color: lightgray;">
-        <div class="panel-title" style="color: black;height:50px;" ><img class="circleImage" src="../../images/502.jpg"> &nbsp;Shama Hegde<br/><div style="font-size:12px;padding-left: 50px;padding-top:0px;"> Shama.Hegde@gmail.com</div></div>
+		<div class="panel-title" style="color: black;height:50px;" ><img class="circleImage" src="../../images/502.jpg"> 
+			&nbsp;Shama Hegde<br/>
+			<div style="font-size:12px;padding-left: 50px;padding-top:0px;color: yellowgreen">
+				 Shama.Hegde@gmail.com</div></div>
     </div>
- <div class="panel-body" style="height:300px">
-awsedgtsdghsdfg
-<div class="panel-heading" style="background-color: white;border-color: lightgray;">
-        
-    </div>
+ <div class="panel-body" style="height:300px;padding:0px;">
+<div style="width:681px;height:220px;overflow: auto;" id="txtMessages" ></div>
+<textarea placeholder="Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
 </div>
 
 </div>
 </div>
 </div>
   </div>
+
 </div>
-	</body>
+<script src="./../../js/clientchat.js"></script>	</body>
 </html>

@@ -1,4 +1,10 @@
 /*MyChat Custom Styles*/
+/* SCROLLBAR */
+/* Let's get this party started */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
 
 .circleImage{
   width: 45px;height:45px;border-radius:50%;object-fit: cover;
@@ -66,8 +72,7 @@ ul {
     margin-top: -30px;
 	width:400px;
 }
-.user {
-}
+
 .user ul
 { 
 overflow-x:hidden;

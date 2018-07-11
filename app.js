@@ -1,6 +1,8 @@
 // import modules
 var express = require('express');
+var socket = require('socket.io');
 var app = express();
+
 
 //middleware
 app.use('/css',express.static('css'));
@@ -26,5 +28,11 @@ var indexUserRoute = require('./controllers/user/index');
 app.use(indexUserRoute);
 
 //let us listen to run server
-app.listen(3000);
+var server = app.listen(3000);
+
+var io = socket(server);
+io.on('connection',function()
+{
+console.log('made socket connection');
+});
 
