@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+	<meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="961920969142-1isq5m20ije4blga9moslprgtaif8ite.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/client:platform.js?onload=startApp"></script>
+    <title>MyChat - Home</title>
+    <% include Head %>
+
+
+    <header>
+        <% include GuestHeader %>
+    </header>
+		<script type="text/javascript">
+
+		$(document).ready(function () {
+			$("#loginform").submit(function(event) {
+    event.preventDefault();
+
+      //ajax here
+});
+		$("#loginform").submit(function() {
+			var userData = {
+			emailid : document.getElementById('login-username').value,
+			password : document.getElementById('login-password').value
+		};
+			$.ajax({
+					 type: 'GET',
+					 url: '/ValidateUserLogin?emailid='+userData.emailid+'&password='+userData.password,
+					 success: function(result) {
+						 //alert(result.status);
+						 console.log(result);
+						 if(result.status == -1)
+			 			{
+                            $('#login-username').val('');
+                            $('#login-password').val('');
+							$('#message').text("Invalid UserName/Password!");
+			 				//console.log('redirecting now :)');
+			 			//document.querySelector('txtErrorMsg').value='Invalid Username/Password';
+			 		}
+			 		//	else if(status == '0')
+			 			//document.querySelector('txtErrorMsg').value='User Loggedout Successfully!';
+			 			else if(result.status == 1)
+			 		{
+			 			window.location.href='User/';
+			 		}
+					else if(result.status == 0)
+					{
+						$('#login-username').val('');
+						$('#login-password').val('');
+						$('#message').text("You loggedout successfully!");
+					}
+						 //if(result.status === "-1")
+						 //{
+							 //alert('Invalid UserName/Password! Please try again');
+							//$('#message').text("Invalid UserName/Password!");
+							//return false;
+						//}
+					 }
+				 });
+		});
+	});
+
+
+
+		function checkMessages(status)
+		{
+			//let params = (new URL(document.location)).searchParams;
+			//console.log(document.location);
+			//let status = params.get("status");
+			if(status === '-1')
+			{
+				//console.log('redirecting now :)');
+			document.querySelector('txtErrorMsg').value='Invalid Username/Password';
+		}
+		//	else if(status == '0')
+			//document.querySelector('txtErrorMsg').value='User Loggedout Successfully!';
+			else if(status === '1')
+		{
+			window.navigate('UserHome.html');
+		}
+			//document.querySelector('txtErrorMsg').value='User Loggedout Successfully!';
+		}
+
+		function onSignIn(googleUser) {
+			alert('hi');
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      };
+		</script>
+	</head>
+	
+<body>
+
+
+
+<div class="container">
+<div class="col-md-12">
+<div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+<div align="center"><h4>
+</h4></div>
+<div align="center"><h5  id="message" style="font-size:16px;color: crimson;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"></h5></div>
+    <div class="panel panel-primary" >
+            <div class="panel-heading">
+                <div class="panel-title">Sign In</div>
+            </div>
+
+            <div style="padding-top:30px" class="panel-body" >
+
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                <form id="loginform" class="form-horizontal" role="form">
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input id="login-username" type="text" class="form-control requiredl" name="username" value="" placeholder="username or email" required = "required">
+                            </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input id="login-password" type="password" class="form-control required" name="password" placeholder="password">
+                            </div>
+
+
+
+                    <div class="input-group">
+                              <div class="checkbox">
+                                <label>
+                                  <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                                </label>
+                              </div>
+                            </div>
+
+
+                        <div style="margin-top:10px; margin-left:0px;" class="form-group">
+                            <!-- Button -->
+                            <input type="submit" class="btn btn-primary" value="&nbsp; &nbsp; Log in &nbsp; &nbsp; " id="btn-signup"  name="user-login">
+							
+
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                    Don't have an account!
+                                <a href="register">
+                                    Sign Up Here
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+</div>
+
+
+
+</div> <!-- /container -->
+
+	</body>
+</html>

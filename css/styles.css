@@ -1,0 +1,82 @@
+/*MyChat Custom Styles*/
+
+.circleImage{
+  width: 45px;height:45px;border-radius:50%;object-fit: cover;
+}
+.chatitem {
+  color: black;
+  border:0px;
+  border-color: white;border:0px;
+  padding-left: 2px;padding-top: 4px;padding-bottom: 4px;
+}
+p {
+margin-top: 10px;
+margin-bottom: 10px;
+line-height: 10px;/* adjust to tweak wierd fonts */;
+}
+
+ul {
+  list-style-type: none;
+}
+.container {
+  margin: 0 auto;
+  max-width: 960px;
+}
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.user a {
+    color: hsl(0, 0%, 62%);
+    outline: medium none;
+    text-decoration: none;
+}
+.user_links {
+    float: right;
+    margin-top: -30px;
+	width:400px;
+}
+.user {
+}
+.user ul
+{ 
+overflow-x:hidden;
+white-space:nowrap; 
+height: 1em;
+width: 100%;
+} 
+
+.user ul li
+{ 
+display:inline; 
+} 

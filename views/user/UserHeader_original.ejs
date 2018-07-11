@@ -1,0 +1,25 @@
+<div class="navbar navbar-inverse">
+  <div class="container">
+    <a class="navbar-brand" href="#">MyChat</a>
+    
+  </div>
+    <div class="user">
+
+   </div>
+</div>
+<div class="container">
+
+<div class="row">
+<div class="col-md-3">
+     <div class="list-group">
+         <a class="list-group-item <%if(PageName==='Chat') {%>active
+                <%}%>" href="Chat">Chat</a>
+         <a class="list-group-item <%if(PageName==='Settings') {%>active
+                <%}%>" href="Settings">Settings</a>
+         <a class="list-group-item <%if(PageName==='Logout') {%>active
+                <%}%>" href="logout">Logout</a>
+     </div>
+</div>
+
+</div>
+</div>

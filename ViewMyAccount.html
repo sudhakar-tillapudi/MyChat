@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Movie Booking System - Home</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+    <!-- script references -->
+			<script src="js/jquery.min.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+
+			<script type="text/javascript">
+			$(document).ready(function () {
+				$.ajax({
+						 type: 'GET',
+						 url: '/GetLoggedInUserInfo',
+						 success: function(result) {
+							 $('#firstname').html(result.FirstName);
+               $('#lastname').html(result.LastName);
+               $('#emailid').html(result.UserName);
+               $('#mobileno').html(result.MobileNo);
+               $('#userid').html(result.UserId);
+						 }
+			});
+		});
+			</script>
+	</head>
+	<body>
+
+<div class="navbar navbar-inverse">
+  <div class="container">
+    <a class="navbar-brand" href="#">MovieSheep</a>
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="UserHome">Home</a></li>
+
+
+    </ul>
+  </div>
+    <div class="user">
+
+   </div>
+</div>
+<div class="container">
+<ul class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home"></span>&nbsp;<a href="UserHome">Home</a></li>
+        <li> <span class="glyphicon glyphicon-user"></span>&nbsp;Manage User</li>
+</ul>
+<div class="row">
+<div class="col-md-3">
+     <div class="list-group">
+         <a class="list-group-item active" href="ViewMyAccount">My Account</a>
+         <a class="list-group-item" href="EditMyAccount">Edit Account</a>
+         <a class="list-group-item" href="ViewMyBookingHistory">Booking History</a>
+         <a class="list-group-item" href="BookATicket">Book a ticket</a>
+         <a class="list-group-item" href="CancelATicket">Cancel a ticket</a>
+				 <a class="list-group-item" href="ChangePassword">Change Password</a>
+				 <a class="list-group-item" href="Logout">Logout</a>
+
+     </div>
+</div>
+<div class="container">
+<div class="col-md-9">
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <div class="panel-title">Account Details</div>
+    </div>
+ <div class="panel-body">
+
+<div class='form-group'><label for='firstname' class='col-md-3 control-label'>User ID</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="userid"></label></div></div>
+
+   <div class='form-group'><label for='firstname' class='col-md-3 control-label'>Email ID</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="emailid"></label></div></div>
+
+   <div class='form-group'><label for='firstname' class='col-md-3 control-label'>First Name</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="firstname"></label></div></div>
+
+	<div class='form-group'><label for='firstname' class='col-md-3 control-label'>Last Name</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="lastname"></label></div></div>
+
+	<div class='form-group'><label for='mobileno' class='col-md-3 control-label'>Mobile No</label><div class='col-md-9'><label for='mobileno' class='col-md-3 control-label' id="mobileno"></label></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- /container -->
+
+	</body>
+</html>

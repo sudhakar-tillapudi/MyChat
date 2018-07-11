@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>MyChat - Home</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+		<!-- script references -->
+			<script src="js/jquery.min.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+
+			<script type="text/javascript">
+			$(document).ready(function () {
+				$.ajax({
+						 type: 'GET',
+						 url: '/GetLoggedInUserInfo',
+						 success: function(result) {
+							 $('#txtUserName').html('Hi, '+result.FirstName+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+						 }
+			});
+		});
+			</script>
+	</head>
+	<body>
+<%include UserHeader %>
+<div align = "right">
+    <p><b style="color:#009900"><p style="color:#009900;font-weight:bold;" id="txtUserName"></p> </b>
+</div>
+<div class="container">
+
+  <div class="row">
+	  <!--left panel-->
+    <div class="col-md-3">
+      <div class="list-group">
+        <a  class="list-group-item active" style="color: black;
+  border:0px;
+  border-color: white;border:0px;font-size: 14px; color:#0e0e0e;background-color: #aacc9a;border-top-right-radius: 0px;
+  border-top-left-radius: 0px;" href="Chat">Contacts</a>
+        <a class="list-group-item chatitem"><img class="circleImage" src="../../images/501.jpg"> &nbsp;Sudhakar</a>
+        <a class="list-group-item chatitem"><img class="circleImage" src="../../images/503.jpg"> &nbsp;Hari</a>
+        <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/502.jpg"> &nbsp;Shama Hegde</a>
+        <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/504.jpg"> &nbsp;Bala</a>
+        <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/505.jpg"> &nbsp; Raj Mani</a>
+        <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/506.jpg"> &nbsp; Himanshu</a>
+        <a style="border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;" class="list-group-item chatitem"><img class="circleImage" src="../../images/507.jpg"> &nbsp; Kumar Swamy</a>
+      </div>
+    </div>
+	<!--right panel-->
+	<div class="container">
+<div class="col-md-9">
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <div class="panel-title">Account Details</div>
+    </div>
+ <div class="panel-body">
+
+<div class='form-group'><label for='firstname' class='col-md-3 control-label'>User ID</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="userid"></label></div></div>
+
+   <div class='form-group'><label for='firstname' class='col-md-3 control-label'>Email ID</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="emailid"></label></div></div>
+
+   <div class='form-group'><label for='firstname' class='col-md-3 control-label'>First Name</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="firstname"></label></div></div>
+
+	<div class='form-group'><label for='firstname' class='col-md-3 control-label'>Last Name</label><div class='col-md-9'><label for='firstname' class='col-md-3 control-label' id="lastname"></label></div></div>
+
+	<div class='form-group'><label for='mobileno' class='col-md-3 control-label'>Mobile No</label><div class='col-md-9'><label for='mobileno' class='col-md-3 control-label' id="mobileno"></label></div></div>
+</div>
+</div>
+</div>
+</div>
+  </div>
+</div>
+	</body>
+</html>

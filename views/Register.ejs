@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script type="text/javascript">
+        function checkRegistrationForm() {
+            var password = document.getElementById("passwd");
+            var confirm_password = document.getElementById("cpasswd");
+
+
+            if (password.value != confirm_password.value) {
+                alert("Passwords Don't Match");
+                return false;
+            } else {
+                confirm_password.setCustomValidity('');
+                return true;
+            }
+        }
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Movie Booking System - Your Tickets</title>
+    <% include Head %>
+</head>
+
+<body>
+    <header>
+        <% include GuestHeader %>
+    </header>
+
+
+    <div id="signupbox" style=" margin-top:50px;padding-left: 100px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-primary" style="
+    width: 400px;">
+            <div class="panel-heading">
+                <div class="panel-title">Sign Up</div>
+
+            </div>
+            <div class="panel-body">
+                <form id="signupform" class="form-horizontal" role="form" action="ValidateUserRegistration" enctype="multipart/form-data" method="post" >
+
+                    <div id="signupalert" style="display:none" class="alert alert-danger">
+                        <p>Error:</p>
+                        <span></span>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="email" class="col-md-3 control-label">Email</label>
+                        <div class="col-md-9">
+                            <input type="email" class="form-control" name="email" placeholder="Email Address" required="required">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstname" class="col-md-3 control-label">First Name</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name" required="required">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwd" class="col-md-3 control-label">Password</label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" id="passwd" name="passwd" placeholder="Password" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpasswd" class="col-md-3 control-label">Confirm Password</label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" id="cpasswd" name="cpasswd1" placeholder="Confirm Password" required="required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ProfilePhoto" class="col-md-3 control-label">Profile Photo</label>
+                        <div class="col-md-9">
+                            <input type="file" name="ProfilePhoto" id="ProfilePhoto" accept="image/x-png,image/gif,image/jpeg" placeholder="Profile Picture"
+                                required="required" />
+                            <!--<input type="password" class="form-control" id="ProfilePhoto" name="cpasswd" placeholder="Profile Picture" required="required">-->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class="col-md-offset-3 col-md-9">
+                            <button id="btn-signup" type="submit" class="btn btn-primary" onclick="return checkRegistrationForm()"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                        Already have an account!
+                        <a href="login">
+                                    Login Here
+                                </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
