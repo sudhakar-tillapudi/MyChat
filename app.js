@@ -31,8 +31,14 @@ app.use(indexUserRoute);
 var server = app.listen(3000);
 
 var io = socket(server);
-io.on('connection',function()
+io.on('connection',function(socket)
 {
+    socket.on('chat-message-request',function(data){
+        console.log('chat : '+data.message);
+require('./controllers/chat/handlechatmessage')(data,socket);
+    });
 console.log('made socket connection');
 });
 
+
+//
