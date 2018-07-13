@@ -1,9 +1,8 @@
-var handleChatMessage = function(data,socket)
+var handleChatMessage = function(data,io)
 {
     console.log('seperate file');
-    console.log('socket : '+socket );
     console.log('data : '+data.message);
-    socket.emit('chat-message-response',{
+    io.sockets.emit('chat-message-response',{
         response : data
     });
 }
