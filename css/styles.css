@@ -5,6 +5,11 @@
   width: 9px;
 }
 
+.imagetext{
+  background-image: none;/*url("../images/ajax/success.png");*/
+  background-position: right center;
+  background-repeat: no-repeat;  
+}
 
 .circleImage{
   width: 45px;height:45px;border-radius:50%;object-fit: cover;

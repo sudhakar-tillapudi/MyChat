@@ -27,7 +27,7 @@ miniapp.post('/ValidateUserRegistration',function(req, res, next)
 
     var mongodb = client.db('mychat');
     mongodb.collection('users').insertOne({
-        _id:req.body.email,
+        _id:req.body.emailid,
         name: req.body.name,
         password: req.body.passwd
     }, function (err, result) {

@@ -47,13 +47,20 @@
   border:0px;
   border-color: white;border:0px;font-size: 14px; color:#0e0e0e;background-color: #aacc9a;border-top-right-radius: 0px;
   border-top-left-radius: 0px;" href="Chat">Contacts</a>-->
-        <a class="list-group-item chatitem" id="501" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/501.jpg"> &nbsp;Sudhakar</a>
+
+  <%
+  for(var i=0;i<Users.length;i++)
+  {%>
+	  <a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg"> &nbsp;<%=Users[i].name%></a>
+  <%}
+  %>
+        <!--<a class="list-group-item chatitem" id="501" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/501.jpg"> &nbsp;Sudhakar</a>
         <a class="list-group-item chatitem" id="503" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/503.jpg"> &nbsp;Hari</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;" id="502" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/502.jpg"> &nbsp;Shama Hegde</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;" id="504"><img class="circleImage" src="../../images/504.jpg" href="javascript:void(0);"  onclick="displayChatWindow(this)"> &nbsp;Bala</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/505.jpg"> &nbsp; Raj Mani</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/506.jpg"> &nbsp; Himanshu</a>
-        <a style="border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;" class="list-group-item chatitem"><img class="circleImage" src="../../images/507.jpg"> &nbsp; Kumar Swamy</a>
+        <a style="border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;" class="list-group-item chatitem"><img class="circleImage" src="../../images/507.jpg"> &nbsp; Kumar Swamy</a>-->
       </div>
     </div>
 	<!--right panel-->
