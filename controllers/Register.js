@@ -13,7 +13,7 @@ miniapp.post('/ValidateUserRegistration',function(req, res, next)
 {
     //upload profile to images folder
     var photo = req.files.ProfilePhoto;
-    photo.mv(__dirname+'/../images/'+req.body.email+".jpg");
+    photo.mv(__dirname+'/../images/'+req.body.emailid+".jpg");
     //photo.name.substring(photo.name.indexOf('.')+1));
     
 

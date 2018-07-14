@@ -1,90 +1,95 @@
-<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<title>MyChat - Home</title>
-		<meta name="generator" content="Bootply" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<!--[if lt IE 9]>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>MyChat - Home</title>
+	<meta name="generator" content="Bootply" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<link href="css/styles.css" rel="stylesheet">
-		<!-- script references -->
-			<script src="js/jquery.min.js"></script>
-			<script src="js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+	<link href="css/styles.css" rel="stylesheet">
+	<!-- script references -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
 
-			<script type="text/javascript">
-			$(document).ready(function () {
-				
-			
-		
+	<script type="text/javascript">
+		$(document).ready(function () {
+		$("#chatWindow").hide();
+
+
 		});
 
-		function displayChatWindow(profile)
-		{
-			$('#titleProfile').attr("src","../../images/"+profile.id+".jpg")
-			//$('#titleName').val(profile.html())
-			console.log(profile);
+		function displayChatWindow(profile, emailId, name) {
+			$("#chatWindow").show();
+			$('#titleProfile').attr("src", "../../images/" + profile.id + ".jpg")
+			$('#titleName').text(name);
+			$('#titleEmailId').text(emailId);
+			$("#receiver").val(emailId);
 		}
-			</script>
-			
-	</head>
-	<body>
-<%include UserHeader %>
-<div align = "right">
-    <p><b style="color:#009900"><p style="color:#009900;font-weight:bold;" id="txtUserName"></p> </b>
-</div>
-<div class="container">
+	</script>
 
-  <div class="row">
-	  <!--left panel-->
-    <div class="col-md-3">
-      <div class="list-group">
-        <!--<a  class="list-group-item active" style="color: black;
+</head>
+
+<body>
+	<%include UserHeader %>
+		
+		<div class="container">
+
+			<div class="row">
+				<!--left panel-->
+				<div class="col-md-3">
+					<div class="list-group">
+						<!--<a  class="list-group-item active" style="color: black;
   border:0px;
   border-color: white;border:0px;font-size: 14px; color:#0e0e0e;background-color: #aacc9a;border-top-right-radius: 0px;
   border-top-left-radius: 0px;" href="Chat">Contacts</a>-->
 
-  <%
+						<%
   for(var i=0;i<Users.length;i++)
   {%>
-	  <a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg"> &nbsp;<%=Users[i].name%></a>
-  <%}
+							<a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);" onclick="displayChatWindow(this, '<%=Users[i]._id%>', '<%=Users[i].name%>')"><img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg"/> &nbsp;<%=Users[i].name%></a>
+							<%}
   %>
-        <!--<a class="list-group-item chatitem" id="501" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/501.jpg"> &nbsp;Sudhakar</a>
+								<!--<a class="list-group-item chatitem" id="501" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/501.jpg"> &nbsp;Sudhakar</a>
         <a class="list-group-item chatitem" id="503" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/503.jpg"> &nbsp;Hari</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;" id="502" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/502.jpg"> &nbsp;Shama Hegde</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;" id="504"><img class="circleImage" src="../../images/504.jpg" href="javascript:void(0);"  onclick="displayChatWindow(this)"> &nbsp;Bala</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/505.jpg"> &nbsp; Raj Mani</a>
         <a class="list-group-item chatitem" style=" padding-left: 2px;padding-top: 2px;padding-bottom: 2px;"><img class="circleImage" src="../../images/506.jpg"> &nbsp; Himanshu</a>
         <a style="border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;" class="list-group-item chatitem"><img class="circleImage" src="../../images/507.jpg"> &nbsp; Kumar Swamy</a>-->
-      </div>
-    </div>
-	<!--right panel-->
-	<div class="container">
-<div class="col-md-9"  style="padding-left: 0px;">
-<div class="panel panel-info" style="border-radius: 0px;border-color: lightgray">
-    <div class="panel-heading" style="background-color: white;border-color: lightgray;">
-		<div class="panel-title" style="color: black;height:50px;" >
-			<img id="titleProfile" class="circleImage" src="../../images/502.jpg"> 
-			<span id="titleName" style="padding-top:0px;color:midnightblue">
-				 Shama Hegde</span><br/>
-			<div id="titleEmailId" style="font-size:12px;padding-left: 50px;padding-top:0px;color:midnightblue">
-				 Shama.Hegde@gmail.com</div></div>
-    </div>
- <div class="panel-body" style="height:300px;padding:0px;">
-<div style="width:681px;height:220px;overflow: auto;" id="txtMessages" ></div>
-<textarea placeholder="Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
-</div>
+					</div>
+				</div>
+				<!--right panel-->
+				<div class="container" id="chatWindow">
+					<div class="col-md-9" style="padding-left: 0px;">
+						<div class="panel panel-info" style="border-radius: 0px;border-color: lightgray">
+							<div class="panel-heading" style="background-color: white;border-color: lightgray;">
+								<div class="panel-title" style="color: black;height:50px;">
+									<img id="titleProfile" class="circleImage">
+									<span id="titleName" style="padding-top:0px;color:midnightblue">
+				 </span><br/>
+									<div id="titleEmailId" style="font-size:12px;padding-left: 50px;padding-top:0px;color:midnightblue">
+									</div>
+								</div>
+							</div>
+							<div class="panel-body" style="height:300px;padding:0px;">
+								<div style="width:681px;height:220px;overflow: auto;" id="txtMessages"></div>
+								<textarea placeholder="Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
+								<input type="hidden" id="receiver"/>
+								<input type="hidden" id="sender" value="<%=loggedinEmailId%>"/>
+							</div>
 
-</div>
-</div>
-</div>
-  </div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-</div>
-<script src="./../../js/clientchat.js"></script>	</body>
+		</div>
+		<script src="./../../js/clientchat.js"></script>
+</body>
+
 </html>

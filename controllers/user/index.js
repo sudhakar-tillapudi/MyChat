@@ -14,10 +14,12 @@ miniapp.get(['/user','/user/index'],function(req, res, next)
     console.log('connected mongodb server successfully!');
 
     var mongodb = db.db('mychat');
-    mongodb.collection('users').find().toArray(function (err, result) {
+    mongodb.collection('users').find({
+        _id:{'$ne':req.session.loggedinEmailId}
+    }).toArray(function (err, result) {
         if (error)
             return console.log('error while creating record');
-            console.log(result[0]);
+            //console.log(result[0]);
          res.render('user/index',{
          Users : result
      });

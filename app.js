@@ -3,15 +3,27 @@ var express = require('express');
 var socket = require('socket.io');
 var app = express();
 var mongoClient = require('mongodb').MongoClient;
+var session = require('express-session');
 
 //middleware
 app.use(['/css','/user/css'],express.static('css'));
-app.use('/fonts',express.static('fonts'));
-app.use('/images',express.static('images'));
-app.use('/js',express.static('js'));
+app.use(['/fonts','/user/fonts'],express.static('fonts'));
+app.use(['/images'],express.static('images'));
+app.use(['/js','/user/js'],express.static('js'));
 app.set('view engine','ejs');
 
-//app.use(express.urlencoded());
+app.use(session({
+   resave: true,
+     saveUninitialized: true,
+     secret: "sudhakar key"
+    }));
+
+app.use(function(req,res,next){
+    res.locals.loggedinEmailId = req.session.emailId;;
+    res.locals.loggedinName = req.session.name;
+    next();
+});
+
 
 //routes
 var indexRoute = require('./controllers/index');
@@ -49,18 +61,22 @@ app.get('/ValidateUserLogin',function(req,res){
     console.log('connected mongodb server successfully!');
 
     var mongodb = db.db('mychat');
-    console.log(req.query.emailid);
-    console.log(req.query.password);
+    
     mongodb.collection('users').find({
         _id:req.query.emailid,
         password : req.query.password
-    }).count(function (err, result) {
+    }).toArray(function (err, result) {
         if (error)
             return console.log('error while creating record');
-            console.log('email count : '+result);
+            console.log('email count : '+result.length);
+            if(result.length == 1)
+            {
+                req.session.emailId = req.query.emailid;
+                req.session.name = result[0].name;
+            }
         res.json({
-            status : result == 0 ? -1 : 1
-        })
+            status : result.length == 0 ? -1 : 1
+        });
     });
     db.close();
 });
@@ -82,7 +98,7 @@ mongoClient.connect("mongodb://localhost:27017", function (error, db) {
     var mongodb = db.db('mychat');
     mongodb.collection('users').find({
         _id:req.query.EmailId
-    }).count(function (err, result) {
+    }).count(function (err, result) {        
         if (error)
             return console.log('error while creating record');
             console.log('email count : '+result);
