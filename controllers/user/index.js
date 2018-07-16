@@ -11,11 +11,12 @@ miniapp.get(['/user','/user/index'],function(req, res, next)
     if (error)
         return console.log('unable to connect to mongodb server... error : ', error);
 
-    console.log('connected mongodb server successfully!');
+    console.log('connected to mongodb server successfully!');
 
     var mongodb = db.db('mychat');
+    console.log('finding other than :'+ req.session.emailId + ' emails');
     mongodb.collection('users').find({
-        _id:{'$ne':req.session.loggedinEmailId}
+        _id:{'$ne':req.session.emailId}
     }).toArray(function (err, result) {
         if (error)
             return console.log('error while creating record');

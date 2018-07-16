@@ -1,4 +1,4 @@
-
+<script>
 var socket = io.connect('http://localhost:3000');
 
 
@@ -10,7 +10,8 @@ $('#txtMsgBody').keyup(function (event) {
         socket.emit("chat-message-request", {
             message: $('#txtMsgBody').val(),
             sender : $('#sender').val(),
-            receiver : $('#receiver').val()
+            receiver : $('#receiver').val(),
+            senderName : '<%=loggedinName%>'
         });
         $('#txtMsgBody').val('');
     }
@@ -25,8 +26,14 @@ socket.on('chat-message-response',function(data){
         messages.append("<span style=\"float:right;padding-right:8px;width:50%\;word-wrap:break-word;\">"+data.response.message+"</span></br>");
     else
         messages.append("<img class=\"messageCircleImage\" src=\"../../images/"+data.response.sender+".jpg\"/><span>"+data.response.message+"</span></br></br>");
-    
-    
+    console.log(data.response);
+        $("#chatWindow").show();
+        $('#titleProfile').attr("src", "../../images/" + data.response.sender + ".jpg")
+        $('#titleName').text('<%=loggedinName%>');
+        $('#titleEmailId').text(data.response.sender);
+        $("#receiver").val('<%=loggedinEmailId%>');
+
     //messages.scrollTop(messages.prop("scrollHeight"));
     messages.animate({ scrollTop: messages.prop("scrollHeight")}, 1000);
 });
+</script>
