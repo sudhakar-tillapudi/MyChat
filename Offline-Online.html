@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <script src="jquery.min.js"></script>
+        <script language="javaScript">
+            var isOnline = true;
+            var idleTime = 0;
+            $(document).ready(function(){
+               
+            });
+             setInterval(function(){
+                 if(idleTime > 5)
+                    isOnline = false;
+                    idleTime++;
+                },1000);
+            $(document).mousemove(function(){
+                isOnline = true;
+                idleTime = 0;
+            });
+
+setInterval(function()
+{
+    console.log('idleTime : '+idleTime);
+    var onlinestr = isOnline == true ? "Online" : "Offline";
+    $("#idleTimeVal").text(idleTime +' seconds , User is  '+onlinestr);
+},1000);
+        </script>
+    </head>
+    <body>
+        <form>
+            
+            <span id="idleTimeVal" ></span>
+        </form>
+    </body>
+</html>
