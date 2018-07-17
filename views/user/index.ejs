@@ -18,17 +18,22 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-		$("#chatWindow").hide();
-
+			$("#chatWindow").hide();
+			$("#userIsTyping").hide();
 
 		});
 
 		function displayChatWindow(profile, emailId, name) {
 			$("#chatWindow").show();
+			//$("input:text:visible:first").focus();
+			$("#txtMsgBody").focus();
 			$('#titleProfile').attr("src", "../../images/" + profile.id + ".jpg")
 			$('#titleName').text(name);
 			$('#titleEmailId').text(emailId);
 			$("#receiver").val(emailId);
+		}
+		function closeChatWindow() {
+			$('#chatWindow').toggle();
 		}
 	</script>
 
@@ -36,7 +41,7 @@
 
 <body>
 	<%include UserHeader %>
-		
+
 		<div class="container">
 
 			<div class="row">
@@ -51,7 +56,12 @@
 						<%
   for(var i=0;i<Users.length;i++)
   {%>
-							<a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);" onclick="displayChatWindow(this, '<%=Users[i]._id%>', '<%=Users[i].name%>')"><img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg"/> &nbsp;<%=Users[i].name%></a>
+							<a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);" onclick="displayChatWindow(this, '<%=Users[i]._id%>', '<%=Users[i].name%>')">
+								<img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg" /> &nbsp;
+								<span style="color: midnightblue">
+									<%=Users[i].name%>
+								</span>
+							</a>
 							<%}
   %>
 								<!--<a class="list-group-item chatitem" id="501" href="javascript:void(0);"  onclick="displayChatWindow(this)"><img class="circleImage" src="../../images/501.jpg"> &nbsp;Sudhakar</a>
@@ -65,22 +75,27 @@
 				</div>
 				<!--right panel-->
 				<div class="container" id="chatWindow">
+
 					<div class="col-md-9" style="padding-left: 0px;">
+
 						<div class="panel panel-info" style="border-radius: 0px;border-color: lightgray">
+							<a href="javascript:closeChatWindow()" style="float:right;padding: 2px;color: gray;">&#10006;</a>
 							<div class="panel-heading" style="background-color: white;border-color: lightgray;">
 								<div class="panel-title" style="color: black;height:50px;">
 									<img id="titleProfile" class="circleImage">
-									<span id="titleName" style="padding-top:0px;color:midnightblue">
-				 </span><br/>
-									<div id="titleEmailId" style="font-size:12px;padding-left: 50px;padding-top:0px;color:midnightblue">
-									</div>
+									<span id="titleName" style="padding-top:0px;padding-bottom: 0px;color:black;font-weight: bold;">
+									</span>
+									<br/>
+									<span id="titleEmailId" style="font-size:12px;padding-left: 50px;padding-top:0px;color:black;">
+									</span>
 								</div>
 							</div>
 							<div class="panel-body" style="height:300px;padding:0px;">
 								<div style="width:681px;height:220px;overflow: auto;" id="txtMessages"></div>
-								<textarea placeholder="Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
-								<input type="hidden" id="receiver"/>
-								<input type="hidden" id="sender" value="<%=loggedinEmailId%>"/>
+								<div id="userIsTyping" style="padding:12px;font-weight: bold;color: rgb(64, 190, 32);font-style: italic"></div>
+								<textarea placeholder="&nbsp;&nbsp;Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
+								<input type="hidden" id="receiver" />
+								<input type="hidden" id="sender" value="<%=loggedinEmailId%>" />
 							</div>
 
 						</div>

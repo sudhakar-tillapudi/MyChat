@@ -6,19 +6,19 @@ var mongoClient = require('mongodb').MongoClient;
 var session = require('express-session');
 
 //middleware
-app.use(['/css','/user/css'],express.static('css'));
-app.use(['/fonts','/user/fonts'],express.static('fonts'));
-app.use(['/images'],express.static('images'));
-app.use(['/js','/user/js'],express.static('js'));
-app.set('view engine','ejs');
+app.use(['/css', '/user/css'], express.static('css'));
+app.use(['/fonts', '/user/fonts'], express.static('fonts'));
+app.use(['/images'], express.static('images'));
+app.use(['/js', '/user/js'], express.static('js'));
+app.set('view engine', 'ejs');
 
 app.use(session({
-   resave: true,
-     saveUninitialized: true,
-     secret: "sudhakar key"
-    }));
+    resave: true,
+    saveUninitialized: true,
+    secret: "sudhakar key"
+}));
 
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
     res.locals.loggedinEmailId = req.session.emailId;;
     res.locals.loggedinName = req.session.name;
     next();
@@ -44,70 +44,78 @@ app.use(indexUserRoute);
 var server = app.listen(3000);
 
 var io = socket(server);
-io.on('connection',function(socket)
-{
-    socket.on('chat-message-request',function(data){
-        console.log('chat : '+data.message);
-require('./controllers/chat/handlechatmessage')(data,io);
+io.on('connection', function (socket) {
+    socket.on('chat-message-request', function (data) {
+        console.log('received  => chat-message-request : ' + data);
+        require('./controllers/chat/handlechatmessage')(data, io);
     });
-console.log('made socket connection');
+
+    socket.on('user-is-typing-request', function (data) {
+        console.log("received => user-is-typing-request : " + data);
+        require('./controllers/chat/handle-typing-message')(data,io);
+    });
+
+    socket.on('user-is-not-typing-request', function (data) {
+        console.log("received => user-is-not-typing-request : " + data);
+        require('./controllers/chat/handle-not-typing-message')(data,io);
+    });
+    console.log('made socket connection');
 });
 
-app.get('/ValidateUserLogin',function(req,res){
+app.get('/ValidateUserLogin', function (req, res) {
     mongoClient.connect("mongodb://localhost:27017", function (error, db) {
-    if (error)
-        return console.log('unable to connect to mongodb server... error : ', error);
-
-    console.log('connected mongodb server successfully!');
-
-    var mongodb = db.db('mychat');
-    
-    mongodb.collection('users').find({
-        _id:req.query.emailid,
-        password : req.query.password
-    }).toArray(function (err, result) {
         if (error)
-            return console.log('error while creating record');
-            console.log('email count : '+result.length);
-            if(result.length == 1)
-            {
+            return console.log('unable to connect to mongodb server... error : ', error);
+
+        console.log('connected mongodb server successfully!');
+
+        var mongodb = db.db('mychat');
+
+        mongodb.collection('users').find({
+            _id: req.query.emailid,
+            password: req.query.password
+        }).toArray(function (err, result) {
+            if (error)
+                return console.log('error while creating record');
+            console.log('email count : ' + result.length);
+            if (result.length == 1) {
                 req.session.emailId = req.query.emailid;
                 req.session.name = result[0].name;
             }
-        res.json({
-            status : result.length == 0 ? -1 : 1
+            res.json({
+                status: result.length == 0 ? -1 : 1
+            });
         });
+        db.close();
     });
-    db.close();
-});
 });
 
 
-app.get('/IsEmailIdExists',function(req,res){
-    console.log('received emailid = '+req.query.EmailId);
+app.get('/IsEmailIdExists', function (req, res) {
+    console.log('received emailid = ' + req.query.EmailId);
 
     //check wether emailid is valid or not.
-    
 
-mongoClient.connect("mongodb://localhost:27017", function (error, db) {
-    if (error)
-        return console.log('unable to connect to mongodb server... error : ', error);
 
-    console.log('connected mongodb server successfully!');
-
-    var mongodb = db.db('mychat');
-    mongodb.collection('users').find({
-        _id:req.query.EmailId
-    }).count(function (err, result) {        
+    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
         if (error)
-            return console.log('error while creating record');
-            console.log('email count : '+result);
-        res.json({
-            IsValid : result == 0 ? true : false
-        })
+            return console.log('unable to connect to mongodb server... error : ', error);
+
+        console.log('connected mongodb server successfully!');
+
+        var mongodb = db.db('mychat');
+        mongodb.collection('users').find({
+            _id: req.query.EmailId
+        }).count(function (err, result) {
+            if (error)
+                return console.log('error while creating record');
+            console.log('email count : ' + result);
+            res.json({
+                IsValid: result == 0 ? true : false
+            })
+        });
+        db.close();
     });
-    db.close();
-});
 
 });
 
