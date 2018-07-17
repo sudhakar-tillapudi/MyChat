@@ -1,39 +1,76 @@
 <script>
-var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('http://localhost:3000');
+    var isStillTyping = false;
 
+    $('#txtMsgBody').keyup(function (event) {
 
-$('#txtMsgBody').keyup(function (event) {
-    
-    if (event.key == "Enter") {
-        //alert('sender : '+$('#sender').val());
-        //alert('receiver : '+$('#receiver').val());
-        socket.emit("chat-message-request", {
-            message: $('#txtMsgBody').val(),
-            sender : $('#sender').val(),
-            receiver : $('#receiver').val(),
-            senderName : '<%=loggedinName%>'
+        if (event.key == "Enter") {
+            //alert('sender : '+$('#sender').val());
+            //alert('receiver : '+$('#receiver').val());
+            socket.emit("chat-message-request", {
+                message: $('#txtMsgBody').val(),
+                sender: $('#sender').val(),
+                receiver: $('#receiver').val(),
+                senderName: '<%=loggedinName%>'
+            });
+            $('#txtMsgBody').val('');
+        }
+
+        isStillTyping = true;
+
+    });
+
+    setInterval(function () {
+        var userTypingMsg = "";
+        if(isStillTyping)
+        {
+            userTypingMsg = 'user-is-typing-request';
+        }
+        else
+        {
+            userTypingMsg = 'user-is-not-typing-request';
+        }
+        socket.emit('user-is-typing-request', {
+            sender: $('#sender').val(),
+            receiver: $('#receiver').val(),
+            senderName: '<%=loggedinName%>'
         });
-        $('#txtMsgBody').val('');
-    }
-});
+        isStillTyping = false;
+    }, 5000)
 
 
-socket.on('chat-message-response',function(data){
-    //$('#txtMessages').text();
-    console.log(data.response);
-    var messages = $('#txtMessages');
-    if(data.response.sender === $("#sender").val())
-        messages.append("<span style=\"float:right;padding-right:8px;width:50%\;word-wrap:break-word;\">"+data.response.message+"</span></br>");
-    else
-        messages.append("<img class=\"messageCircleImage\" src=\"../../images/"+data.response.sender+".jpg\"/><span>"+data.response.message+"</span></br></br>");
-    console.log(data.response);
-        $("#chatWindow").show();
-        $('#titleProfile').attr("src", "../../images/" + data.response.sender + ".jpg")
-        $('#titleName').text('<%=loggedinName%>');
-        $('#titleEmailId').text(data.response.sender);
-        $("#receiver").val('<%=loggedinEmailId%>');
+    socket.on('chat-message-response', function (data) {
+        //$('#txtMessages').text();
+        console.log(data.response);
+        var messages = $('#txtMessages');
+        if (data.response.sender === $("#sender").val())
+            messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + data.response.message + "</span></br></br>");
+        else if (data.response.receiver == '<%=loggedinEmailId%>') {
+            messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + data.response.sender + ".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" + data.response.message + "</span></br></br>");
+            console.log(data.response);
+            $("#chatWindow").show();
+            $("#txtMsgBody").focus();
+            $('#titleProfile').attr("src", "../../images/" + data.response.sender + ".jpg")
+            $('#titleName').text(data.response.senderName);
+            $('#titleEmailId').text(data.response.sender);
+            $("#receiver").val('<%=loggedinEmailId%>');
+        }
 
-    //messages.scrollTop(messages.prop("scrollHeight"));
-    messages.animate({ scrollTop: messages.prop("scrollHeight")}, 1000);
-});
+        //messages.scrollTop(messages.prop("scrollHeight"));
+        messages.animate({ scrollTop: messages.prop("scrollHeight") }, 1000);
+    });
+
+    socket.on('user-is-typing-response', function (data) {
+        if (data.response.receiver == '<%=loggedinEmailId%>')
+        {
+            $('#userIsTyping').text(data.response.senderName+' is Typing...');
+            $("#userIsTyping").show();
+        }
+    });
+
+    socket.on('user-is-not-typing-response', function (data) {
+        if (data.response.receiver == '<%=loggedinEmailId%>')
+            $("#userIsTyping").hide();
+    });
+
 </script>
