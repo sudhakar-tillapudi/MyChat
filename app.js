@@ -46,7 +46,7 @@ var server = app.listen(3000);
 var io = socket(server);
 io.on('connection', function (socket) {
     socket.on('chat-message-request', function (data) {
-        console.log('received  => chat-message-request : ' + data);
+        console.log('received  => chat-message-request : ' + data.message);
         require('./controllers/chat/handlechatmessage')(data, io);
     });
 
@@ -84,6 +84,33 @@ app.get('/ValidateUserLogin', function (req, res) {
             }
             res.json({
                 status: result.length == 0 ? -1 : 1
+            });
+        });
+        db.close();
+    });
+});
+
+app.get('/GetOldMessages', function (req, res) {
+    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
+        if (error)
+            return console.log('unable to connect to mongodb server... error : ', error);
+
+        console.log('connected mongodb server successfully!');
+
+        var mongodb = db.db('mychat');
+
+        mongodb.collection('messages').find(
+            {$or: [{sender: req.query.sender}, {sender : req.query.receiver}]},
+            {$or: [{receiver: req.query.sender}, {receiver  : req.query.receiver}]},
+        ).sort({
+            sentDateTime : 1
+        }).toArray(function (err, result) {
+            if (error)
+                return console.log('error while fetching records');
+            console.log('messages count : ' + result.length);
+            console.log(result[0]);
+            res.json({
+                messages: result
             });
         });
         db.close();

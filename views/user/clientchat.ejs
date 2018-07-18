@@ -5,13 +5,19 @@
     $('#txtMsgBody').keyup(function (event) {
         //alert('key press');
         if (event.key == "Enter") {
+            var today = new Date();
+            var msgDateTime = today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear()+" "+
+            today.getHours()+ ":"+today.getMinutes()+":"+today.getSeconds();
+            //alert(msgDateTime);
             //alert('sender : '+$('#sender').val());
             //alert('receiver : '+$('#receiver').val());
             socket.emit("chat-message-request", {
                 message: $('#txtMsgBody').val(),
                 sender: $('#sender').val(),
                 receiver: $('#receiver').val(),
-                senderName: '<%=loggedinName%>'
+                senderName: '<%=loggedinName%>',
+                receiverName : $('#titleName').text()
+                //msgDateTime : msgDateTime
             });
             $('#txtMsgBody').val('');
         }
@@ -36,7 +42,7 @@
             senderName: '<%=loggedinName%>'
         });
         isStillTyping = false;
-    }, 2000)
+    }, 50000);
 
 
     socket.on('chat-message-response', function (data) {
@@ -46,7 +52,11 @@
         if (data.response.sender === $("#sender").val())
             messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + data.response.message + "</span></br></br>");
         else if (data.response.receiver == '<%=loggedinEmailId%>') {
-            messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + data.response.sender + ".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" + data.response.message + "</span></br></br>");
+            messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + data.response.sender +
+             ".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" +
+              data.response.message + "</span></br>"+
+              "<span style=\"color:gray;padding-left:35px;font-size:10px;\">"+data.response.senderName+
+              "."+data.response.sentDateTime+"</span></br></br>");
             console.log(data.response);
             $("#chatWindow").show();
             $("#txtMsgBody").focus();

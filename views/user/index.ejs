@@ -32,10 +32,39 @@
 			$('#titleName').text(name);
 			$('#titleEmailId').text(emailId);
 			$("#receiver").val(emailId);
+
+			//send an ajax call to server to get all the past messages from server.
+			$.ajax({
+				type: 'GET',
+				url: "/GetOldMessages?sender=" + '<%=loggedinEmailId%>' + "&receiver=" + emailId,
+				success: function (result) {
+					//alert(result.status);
+					console.log('GetOldMessages response');
+					console.log(result);
+					//display the content on div
+					var messages = $('#txtMessages');
+					messages.html('');
+					for (var i = 0; i < result.messages.length; i++) {
+						var response = result.messages[i];
+						if (response.sender === $("#sender").val())
+							messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + response.message + "</span></br></br>");
+						else if (response.receiver == '<%=loggedinEmailId%>') {
+							messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + response.sender +
+								".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" +
+								response.message + "</span></br>" +
+								"<span style=\"color:gray;padding-left:35px;font-size:10px;\">" + response.senderName +
+								"." + response.sentDateTime + "</span></br></br>");
+						}
+
+						//messages.scrollTop(messages.prop("scrollHeight"));
+						messages.animate({ scrollTop: messages.prop("scrollHeight") }, 1000);
+					}
+				}
+			});
 		}
-		function closeChatWindow() {
-			$('#chatWindow').toggle();
-		}
+			function closeChatWindow() {
+				$('#chatWindow').toggle();
+			}
 	</script>
 
 </head>
