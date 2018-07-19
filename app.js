@@ -45,6 +45,13 @@ var server = app.listen(3000);
 
 var io = socket(server);
 io.on('connection', function (socket) {
+
+    //Join the particular room for sending messages to the specific user.
+    socket.on('join', function(data){
+        console.log('joining '+data.emailId);
+        socket.join(data.emailId);
+    });
+    
     socket.on('chat-message-request', function (data) {
         console.log('received  => chat-message-request : ' + data.message);
         require('./controllers/chat/handlechatmessage')(data, io);
@@ -100,8 +107,8 @@ app.get('/GetOldMessages', function (req, res) {
         var mongodb = db.db('mychat');
 
         mongodb.collection('messages').find(
-            {$or: [{sender: req.query.sender}, {sender : req.query.receiver}]},
-            {$or: [{receiver: req.query.sender}, {receiver  : req.query.receiver}]},
+            {$or :[{$and: [{sender: req.query.sender}, {receiver : req.query.receiver}]},
+                    {$and: [{sender: req.query.receiver}, {receiver  : req.query.sender}]}]},
         ).sort({
             sentDateTime : 1
         }).toArray(function (err, result) {

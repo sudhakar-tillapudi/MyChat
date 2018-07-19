@@ -1,11 +1,11 @@
 var handleChatMessage = function (data, io) {
     console.log('seperate file');
-    console.log('data : ' + data.message);
+    console.log('sender : ' + data.sender + " , receiver : "+data.receiver);
     var today = new Date();
     var time = today.toLocaleTimeString();
     var options = { weekday: 'long', month: 'long', day: 'numeric' };
     data.sentDateTime = today.toLocaleDateString("en-US", options) + ", "+ time.substr(0,time.lastIndexOf(':'));
-    io.sockets.emit('chat-message-response', {
+    io.sockets.in(data.receiver).emit('chat-message-response', {
         response: data,
     });
 

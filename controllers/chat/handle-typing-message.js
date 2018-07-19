@@ -1,6 +1,6 @@
 var handletypingmessage = function(data,io)
 {
-    io.sockets.emit('user-is-typing-response',{
+    io.sockets.in(data.receiver).emit('user-is-typing-response',{
         response : data
     });
 };
