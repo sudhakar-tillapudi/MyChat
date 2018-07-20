@@ -34,7 +34,7 @@
 			//alert('setting receiver : '+emailId);
 			$("#receiver").val(emailId);
 			var messages = $('#txtMessages');
-			console.log('checking for : '+emailId);
+			console.log('checking for : ' + emailId);
 			messages.html('');
 			messages.append("<div align=\"center\" style=\"padding-top:80px;\"><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">Loading messages...</span></div>");
 			//send an ajax call to server to get all the past messages from server.
@@ -46,7 +46,7 @@
 					console.log('GetOldMessages response');
 					console.log(result);
 					//display the content on div
-					
+
 					messages.html('');
 					for (var i = 0; i < result.messages.length; i++) {
 						var response = result.messages[i];
@@ -59,19 +59,19 @@
 						}
 						else
 							messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + response.message + "</span></br></br>");
-						
+
 
 						//messages.scrollTop(messages.prop("scrollHeight"));
-						
+
 						//messages.scrollTop = messages.scrollHeight;
 					}
-					messages.animate({ scrollTop: messages.prop("scrollHeight") },1500);
+					messages.animate({ scrollTop: messages.prop("scrollHeight") }, 1500);
 				}
 			});
 		}
-			function closeChatWindow() {
-				$('#chatWindow').toggle();
-			}
+		function closeChatWindow() {
+			$('#chatWindow').toggle();
+		}
 	</script>
 
 </head>
@@ -94,7 +94,18 @@
   for(var i=0;i<Users.length;i++)
   {%>
 							<a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);" onclick="displayChatWindow(this, '<%=Users[i]._id%>', '<%=Users[i].name%>')">
-								<img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg" /> &nbsp;
+								<img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg" style="z-index: 2" /> &nbsp;
+								<img id="<%=Users[i]._id%>_OnlineStatus" style="width:11px;height:11px;z-index: 1;position:absolute;top:38px;left:38px;display:none" src="../../images/ajax/online.png">
+	<%
+	console.log(Availability[Users[i]._id]);
+	if(Availability[Users[i]._id])
+	{%>
+		<script>
+			$('#<%=Users[i]._id%>_OnlineStatus').show();
+		</script>
+	<%}
+	%>
+
 								<span style="color: midnightblue">
 									<%=Users[i].name%>
 								</span>

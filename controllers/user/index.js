@@ -22,7 +22,8 @@ miniapp.get(['/user','/user/index'],function(req, res, next)
             return console.log('error while creating record');
             //console.log(result[0]);
          res.render('user/index',{
-         Users : result
+         Users : result,
+         Availability : req.app.locals.usersAvailability
      });
     });
     db.close();

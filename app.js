@@ -24,6 +24,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.locals.usersAvailability = {};
 
 //routes
 var indexRoute = require('./controllers/index');
@@ -50,8 +51,13 @@ io.on('connection', function (socket) {
     socket.on('join', function(data){
         console.log('joining '+data.emailId);
         socket.join(data.emailId);
+        app.locals.usersAvailability[data.emailId] = true;
     });
-    
+
+    socket.on('disconnect', function(data){
+        app.locals.usersAvailability[data.emailId] = false;
+    });
+
     socket.on('chat-message-request', function (data) {
         console.log('received  => chat-message-request : ' + data.message);
         require('./controllers/chat/handlechatmessage')(data, io);
@@ -66,6 +72,7 @@ io.on('connection', function (socket) {
         console.log("received => user-is-not-typing-request : " + data);
         require('./controllers/chat/handle-not-typing-message')(data,io);
     });
+
     console.log('made socket connection');
 });
 
