@@ -21,7 +21,12 @@
 			$("#chatWindow").hide();
 			$("#userIsTyping").hide();
 
+			//console.log('<%=Availability['+email+']%>');
+
+
 		});
+
+
 
 		function displayChatWindow(profile, emailId, name) {
 			$("#chatWindow").show();
@@ -31,12 +36,24 @@
 			$('#titleProfile').attr("src", "../../images/" + profile.id + ".jpg")
 			$('#titleName').text(name);
 			$('#titleEmailId').text(emailId);
+			
+			var onlineStatusImg = emailId.replace('@','').replace('.','')+"OnlineStatus";
+			var isVisible = document.getElementById(onlineStatusImg).style.visibility;
+			if(isVisible === 'visible')
+			{
+				document.getElementById('onlineStatus').style.visibility='visible';
+			}
+			else
+			{
+				document.getElementById('onlineStatus').style.visibility='hidden';
+			}
 			//alert('setting receiver : '+emailId);
 			$("#receiver").val(emailId);
 			var messages = $('#txtMessages');
 			console.log('checking for : ' + emailId);
 			messages.html('');
-			messages.append("<div align=\"center\" style=\"padding-top:80px;\"><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">Loading messages...</span></div>");
+			
+			messages.append("<div align=\"center\" style=\"padding-top:160px;\"><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">Loading messages...</span></div>");
 			//send an ajax call to server to get all the past messages from server.
 			$.ajax({
 				type: 'GET',
@@ -48,17 +65,20 @@
 					//display the content on div
 
 					messages.html('');
+					var options = { day: 'numeric', weekday: 'short', month: 'long' };
 					for (var i = 0; i < result.messages.length; i++) {
 						var response = result.messages[i];
+						var dt = new Date(response.sentDateTime);
+						var convertedDate = dt.toLocaleString("en-US", options) + ", " + dt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 						if (response.receiver == '<%=loggedinEmailId%>') {
 							messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + response.sender +
 								".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" +
 								response.message + "</span></br>" +
 								"<span style=\"color:gray;padding-left:35px;font-size:10px;\">" + response.senderName +
-								"." + response.sentDateTime + "</span></br></br>");
+								"." + convertedDate + "</span></br></br>");
 						}
 						else
-							messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + response.message + "</span></br></br>");
+							messages.append("<span style=\"float:right;padding-right:8px;padding-left :100px;word-wrap:break-word;font-weight:bold\">" + response.message + "</span><br/><span style=\"color:gray;float:right;padding-right:8px;padding-top:5px;font-size:10px;\">" + convertedDate + "</span></br></br></br>");
 
 
 						//messages.scrollTop(messages.prop("scrollHeight"));
@@ -72,6 +92,8 @@
 		function closeChatWindow() {
 			$('#chatWindow').toggle();
 		}
+
+
 	</script>
 
 </head>
@@ -95,18 +117,11 @@
   {%>
 							<a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);" onclick="displayChatWindow(this, '<%=Users[i]._id%>', '<%=Users[i].name%>')">
 								<img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg" style="z-index: 2" /> &nbsp;
-								<img id="<%=Users[i]._id%>_OnlineStatus" style="width:11px;height:11px;z-index: 1;position:absolute;top:38px;left:38px;display:none" src="../../images/ajax/online.png">
-	<%
-	console.log(Availability[Users[i]._id]);
-	if(Availability[Users[i]._id])
-	{%>
-		<script>
-			$('#<%=Users[i]._id%>_OnlineStatus').show();
-		</script>
-	<%}
-	%>
+								<img id="<%=Users[i]._id.replace('@','').replace('.','')%>OnlineStatus" style="width:12px;height:12px;z-index: 1;position:absolute;top:38px;left:38px;visibility:hidden"
+								 src="../../images/ajax/online.png" />
 
-								<span style="color: midnightblue">
+
+								<span style="color: midnightblue;">
 									<%=Users[i].name%>
 								</span>
 							</a>
@@ -122,29 +137,32 @@
 					</div>
 				</div>
 				<!--right panel-->
-				<div class="container" id="chatWindow">
+				<div class="container" id="chatWindow" style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
 
 					<div class="col-md-9" style="padding-left: 0px;">
 
 						<div class="panel panel-info" style="border-radius: 0px;border-color: lightgray">
-							<a href="javascript:closeChatWindow()" style="float:right;padding: 2px;color: gray;">&#10006;</a>
+							<a href="javascript:closeChatWindow()" style="float:right;padding-right: 2px;color: gray;">&#10006;</a>
 							<div class="panel-heading" style="background-color: white;border-color: lightgray;">
 								<div class="panel-title" style="color: black;height:50px;">
-									<img id="titleProfile" class="circleImage">
+									<img id="titleProfile" class="circleImage" style="z-index: 2" >
+									<img id="onlineStatus" style="width:12px;height:12px;z-index: 1;position:absolute;top:45px;left:52px;visibility:hidden" src="../../images/ajax/online.png"
+									/>
 									<span id="titleName" style="padding-top:0px;padding-bottom: 0px;color:black;font-weight: bold;">
 									</span>
 									<br/>
-									<span id="titleEmailId" style="font-size:12px;padding-left: 50px;padding-top:0px;color:black;">
+									<span id="titleEmailId" style="font-size:14px;padding-left: 50px;position:absolute;top:45px;color:black;">
 									</span>
 								</div>
 							</div>
-							<div class="panel-body" style="height:300px;padding:0px;">
-								<div style="width:681px;height:220px;overflow: auto;" id="txtMessages"></div>
+							
+								<div style="width:681px;height:340px;overflow: auto;" id="txtMessages"></div>
 								<div id="userIsTyping" style="padding:12px;font-weight: bold;color: rgb(64, 190, 32);font-style: italic"></div>
-								<textarea placeholder="&nbsp;&nbsp;Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
+								
+								<textarea placeholder="&nbsp;Your Message here" name="txtMsgBody" id="txtMsgBody" cols="90" rows="4" style="margin-left:0px;margin-right:0px;width:682px;height:80px;font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"></textarea>
 								<input type="hidden" id="receiver" />
 								<input type="hidden" id="sender" value="<%=loggedinEmailId%>" />
-							</div>
+							
 
 						</div>
 					</div>
@@ -153,6 +171,24 @@
 
 		</div>
 		<% include clientchat.ejs %>
+		<script src="./../../js/emojis.js"></script>
+		<script src="./../../js/util.js"></script>
+			<script>
+				window.onload = function update() {
+					$.ajax({
+						type: 'GET',
+						url: "/GetOnlineStatus",
+						success: function (result) {
+							//alert(result.status);
+							console.log(result.Availability);
+							//display the content on div
+							updateAvailabilityStatus(result.Availability, '<%=loggedinEmailId%>');
+						}
+					});
+				}
+
+
+			</script>
 </body>
 
 </html>

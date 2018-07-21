@@ -48,15 +48,45 @@ var io = socket(server);
 io.on('connection', function (socket) {
 
     //Join the particular room for sending messages to the specific user.
-    socket.on('join', function(data){
-        console.log('joining '+data.emailId);
+    socket.on('join', function (data) {
+        if (!data.emailId)
+            return;
+        console.log('joining ' + data.emailId);
         socket.join(data.emailId);
         app.locals.usersAvailability[data.emailId] = true;
+        console.log('AvailabilityUpdated emitting');
+        io.sockets.emit('AvailabilityUpdated', {
+
+            Availability: app.locals.usersAvailability
+        });
     });
 
-    socket.on('disconnect', function(data){
+    socket.on('clientDisconnectedForcibly', function (data) {
+        console.log('clientDisconnectedForcibly received');
         app.locals.usersAvailability[data.emailId] = false;
+        console.log('leaving room '+data.emailId);
+        console.log(app.locals.usersAvailability);
+        socket.leave(data.emailId);
+
+        io.sockets.emit('AvailabilityUpdated', {
+
+            Availability: app.locals.usersAvailability
+        });
     });
+    socket.on('disconnect', function (data) {
+        // for(var room in socket.adapter.rooms.sockets){
+        //     console.log(room.Room);
+        // }
+
+        //console.log('on disconnection =>' + data);
+        //console.log(socket.client);
+        app.locals.usersAvailability[data.emailId] = false;
+        io.sockets.emit('AvailabilityUpdated', {
+
+            Availability: app.locals.usersAvailability
+        });
+    });
+   
 
     socket.on('chat-message-request', function (data) {
         console.log('received  => chat-message-request : ' + data.message);
@@ -65,16 +95,28 @@ io.on('connection', function (socket) {
 
     socket.on('user-is-typing-request', function (data) {
         console.log("received => user-is-typing-request : " + data);
-        require('./controllers/chat/handle-typing-message')(data,io);
+        require('./controllers/chat/handle-typing-message')(data, io);
     });
 
     socket.on('user-is-not-typing-request', function (data) {
         console.log("received => user-is-not-typing-request : " + data);
-        require('./controllers/chat/handle-not-typing-message')(data,io);
+        require('./controllers/chat/handle-not-typing-message')(data, io);
+    });
+
+    socket.on('leave',function(data){
+        console.log('leaving room '+data.emailId);
+        socket.leave(data.emailId);
     });
 
     console.log('made socket connection');
 });
+
+app.get('/GetOnlineStatus', function (req, res) {
+    console.log(app.locals.usersAvailability);
+    res.json({
+        Availability: app.locals.usersAvailability
+    });
+})
 
 app.get('/ValidateUserLogin', function (req, res) {
     mongoClient.connect("mongodb://localhost:27017", function (error, db) {
@@ -114,10 +156,12 @@ app.get('/GetOldMessages', function (req, res) {
         var mongodb = db.db('mychat');
 
         mongodb.collection('messages').find(
-            {$or :[{$and: [{sender: req.query.sender}, {receiver : req.query.receiver}]},
-                    {$and: [{sender: req.query.receiver}, {receiver  : req.query.sender}]}]},
+            {
+                $or: [{ $and: [{ sender: req.query.sender }, { receiver: req.query.receiver }] },
+                { $and: [{ sender: req.query.receiver }, { receiver: req.query.sender }] }]
+            },
         ).sort({
-            sentDateTime : 1
+            sentDateTime: 1
         }).toArray(function (err, result) {
             if (error)
                 return console.log('error while fetching records');
@@ -160,4 +204,13 @@ app.get('/IsEmailIdExists', function (req, res) {
 
 });
 
-//
+app.get('/Signout',function(req,res){
+
+    //destroy the session 
+    req.session.destroy();
+
+    //remove the resepctive client from io.sockets
+    io.sockets.in(req.query)
+    socket
+    res.render('index');
+});
