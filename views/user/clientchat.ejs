@@ -1,8 +1,8 @@
 <script>
     var socket = io.connect('http://localhost:3000');
 
-    socket.emit('join',{
-        emailId : '<%=loggedinEmailId%>'
+    socket.emit('join', {
+        emailId: '<%=loggedinEmailId%>'
     });
 
     var isStillTyping = false;
@@ -14,8 +14,8 @@
         //alert('key press');
         if (event.key == "Enter") {
             var today = new Date();
-            var msgDateTime = today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear()+" "+
-            today.getHours()+ ":"+today.getMinutes()+":"+today.getSeconds();
+            var msgDateTime = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear() + " " +
+                today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
             //alert(msgDateTime);
             //alert('sender : '+$('#sender').val());
             //alert('receiver : '+$('#receiver').val());
@@ -24,70 +24,101 @@
                 sender: $('#sender').val(),
                 receiver: $('#receiver').val(),
                 senderName: '<%=loggedinName%>',
-                receiverName : $('#titleName').text()
+                receiverName: $('#titleName').text()
                 //msgDateTime : msgDateTime
             });
             var msg = $('#txtMsgBody').val();
             $('#txtMsgBody').val('');
-            
-			var convertedDate = today.toLocaleString("en-US",options)+", "+today.toLocaleString('en-US', { hour: 'numeric',minute:'numeric', hour12: true });
-						
+
+            var convertedDate = today.toLocaleString("en-US", options) + ", " + today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
             //messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + msg + "</span></br></br>");
-              messages.append("<span style=\"float:right;padding-right:8px;padding-left :100px;word-wrap:break-word;font-weight:bold\">" + msg + "</span><br/><span style=\"color:gray;float:right;padding-right:8px;padding-top:5px;font-size:10px;\">"+ convertedDate + "</span></br></br></br>");
+            messages.append("<span style=\"float:right;padding-right:8px;padding-left :100px;word-wrap:break-word;font-weight:bold\">" + msg + "</span><br/><span style=\"color:gray;float:right;padding-right:8px;padding-top:5px;font-size:10px;\">" + convertedDate + "</span></br></br></br>");
             messages.animate({ scrollTop: messages.prop("scrollHeight") }, 1);
-            //isStillTyping = false;
+            isStillTyping = false;
+            oldUserTypingStatus = false;
+            socket.emit('user-is-not-typing-request', {
+                sender: $('#sender').val(), receiver: $('#receiver').val(),
+                senderName: '<%=loggedinName%>'
+            });
+
         }
-       // else
+         else
             isStillTyping = true;
 
     });
 
     setInterval(function () {
-            if (isStillTyping != oldUserTypingStatus) {
-                var userTypingMsg = ""; if (isStillTyping) {
-                    userTypingMsg
+        if (isStillTyping != oldUserTypingStatus) {
+            var userTypingMsg = ""; if (isStillTyping) {
+                userTypingMsg
                     = 'user-is-typing-request';
-                } else { userTypingMsg = 'user-is-not-typing-request'; } 
-                socket.emit(userTypingMsg, {
-                    sender: $('#sender').val(), receiver: $('#receiver').val(), 
-                    senderName: '<%=loggedinName%>' });  
-                    oldUserTypingStatus = isStillTyping;
-                    } 
-                    isStillTyping = false;
-                    //oldUserTypingStatus = isStillTyping;
-                    }, 2000);
+            } else { userTypingMsg = 'user-is-not-typing-request'; }
+            socket.emit(userTypingMsg, {
+                sender: $('#sender').val(), receiver: $('#receiver').val(),
+                senderName: '<%=loggedinName%>'
+            });
+            oldUserTypingStatus = isStillTyping;
+        }
+        isStillTyping = false;
+        //oldUserTypingStatus = isStillTyping;
+    }, 1000);
 
 
     socket.on('chat-message-response', function (data) {
         //$('#txtMessages').text();
         console.log(data.response);
-        
+
         //if (data.response.sender === $("#sender").val())
-            //messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + data.response.message + "</span></br></br>");
+        //messages.append("<span style=\"float:right;padding-right:8px;word-wrap:break-word;font-weight:bold\">" + data.response.message + "</span></br></br>");
         //else if (data.response.receiver == '<%=loggedinEmailId%>') {
-            messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + data.response.sender +
-             ".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" +
-              data.response.message + "</span></br>"+
-              "<span style=\"color:gray;padding-left:35px;font-size:10px;\">"+data.response.senderName+
-              "."+data.response.sentDateTime+"</span></br></br>");
-            console.log(data.response);
-            // $("#chatWindow").show();
-            // $("#txtMsgBody").focus();
-            // $('#titleProfile').attr("src", "../../images/" + data.response.sender + ".jpg")
-            // $('#titleName').text(data.response.senderName);
-            // $('#titleEmailId').text(data.response.sender);
-            // $("#receiver").val(data.response.sender);
+        var msgDateTime = new Date(data.response.sentDateTime);    
+        var convertedDate = msgDateTime.toLocaleString("en-US", options) + ", " + msgDateTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        messages.append("<img class=\"messageCircleImage\" src=\"../../images/" + data.response.sender +
+            ".jpg\"/><span style=\"color:#009900;padding-left:5px;font-weight:bold;\">" +
+            data.response.message + "</span></br>" +
+            "<span style=\"color:gray;padding-left:35px;font-size:10px;\">" + data.response.senderName +
+            "." + convertedDate + "</span></br></br>");
+            
+        //console.log(data.response);
+        // $("#chatWindow").show();
+        // $("#txtMsgBody").focus();
+        // $('#titleProfile').attr("src", "../../images/" + data.response.sender + ".jpg")
+        // $('#titleName').text(data.response.senderName);
+        // $('#titleEmailId').text(data.response.sender);
+        // $("#receiver").val(data.response.sender);
         //}
 
         //messages.scrollTop(messages.prop("scrollHeight"));
         messages.animate({ scrollTop: messages.prop("scrollHeight") }, 1);
+
+        //show titlebar with username
+
+        var num = 1;
+        setInterval(function () {
+            if (num == 1) {
+                document.title = data.response.senderName + ' Says...';
+                num++;
+            }
+            else {
+                document.title = 'MyChat - Home';
+                num = 1;
+            }
+        }, 3000);
+
+        //display messages count
+        var senderemail = data.response.sender.replace('@','').replace('.','');
+        console.log(senderemail);
+        $("#newMessagesCount"+senderemail).text("8");
+        $("#newMessagesCount"+senderemail).css('visibility','visible');
+        //$("#newMessagesText"+senderemail.replace('@','').replace('.','')).css('visibility','visible');
     });
 
     socket.on('user-is-typing-response', function (data) {
         //if (data.response.receiver == '<%=loggedinEmailId%>')
         //{
-            $('#userIsTyping').text(data.response.senderName+' is typing...');
-            $("#userIsTyping").show();
+        $('#userIsTyping').text(data.response.senderName + ' is typing...');
+        $("#userIsTyping").show();
         // }
         // else
         // {
@@ -97,25 +128,24 @@
 
     socket.on('user-is-not-typing-response', function (data) {
         //if (data.response.receiver == '<%=loggedinEmailId%>')
-            $("#userIsTyping").hide();
+        $("#userIsTyping").hide();
     });
 
 
-    socket.on('AvailabilityUpdated',function(data){
+    socket.on('AvailabilityUpdated', function (data) {
         console.log('got AvailabilityUpdated');
-        updateAvailabilityStatus(data.Availability,'<%=loggedinEmailId%>');
+        updateAvailabilityStatus(data.Availability, '<%=loggedinEmailId%>');
     });
 
-    
 
-    window.onbeforeunload= function clientDisconnected()
-		{
 
-			socket.emit('clientDisconnectedForcibly',{
-            emailId : '<%=loggedinEmailId%>'
+    window.onbeforeunload = function clientDisconnected() {
+
+        socket.emit('clientDisconnectedForcibly', {
+            emailId: '<%=loggedinEmailId%>'
         });
-        }
-        
+    }
+
         // function leaveSocket()
         // {
         //     //alert('leaving'+'<%=loggedinEmailId%>');

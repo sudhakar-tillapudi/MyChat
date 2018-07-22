@@ -22,9 +22,21 @@
             else {
                 //document.getElementById("sandhya" ).style.visibility = "hidden";
                 //$("\"#"+email+"_OnlineStatus"+"\"").show();
+                try{
                 document.getElementById(email.replace('@','').replace('.','')+ "OnlineStatus").style.visibility = "hidden";
+            }
+            catch(err)
+            {
+                console.log(email);
+                console.log(err)
+            }
             }
         }
     }
+}
+
+function getPlainEmailId(emailId)
+{
+    return emailId.replace('@','').replace('.','');
 }
 
