@@ -108,6 +108,10 @@ io.on('connection', function (socket) {
         socket.leave(data.emailId);
     });
 
+    socket.on('msg-read-completed',function(data){
+        console.log('msg-read-completed received');
+        require('./controllers/chat/handle-msg-read-completed')(data, io);
+    });
     console.log('made socket connection');
 });
 

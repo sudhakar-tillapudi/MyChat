@@ -40,3 +40,21 @@ function getPlainEmailId(emailId)
     return emailId.replace('@','').replace('.','');
 }
 
+function messagesReadCompleted(sender,receiver,hasfocus)
+{
+    setTimeout(function(){
+        if(hasfocus)
+        {
+            //now send a message to server saying that msg is viewed
+            var senderPlainEmailId = getPlainEmailId(sender);
+            $("#newMessagesCount"+senderPlainEmailId).text('0');
+            $("#newMessagesCount"+senderPlainEmailId).css('visibility','hidden');
+        }
+        //send socket message to server
+        socket.emit('msg-read-completed',{
+            sender : sender,
+            receiver : receiver,
+            readCompletedTimestamp : new Date()
+        })
+    },3000);
+}
