@@ -5,12 +5,15 @@ var app = express();
 var mongoClient = require('mongodb').MongoClient;
 var session = require('express-session');
 
+var port = process.env.port || 3000;
+
 //middleware
 app.use(['/css', '/user/css'], express.static('css'));
 app.use(['/fonts', '/user/fonts'], express.static('fonts'));
 app.use(['/images'], express.static('images'));
 app.use(['/js', '/user/js'], express.static('js'));
 app.set('view engine', 'ejs');
+
 
 app.use(session({
     resave: true,
@@ -42,7 +45,7 @@ var indexUserRoute = require('./controllers/user/index');
 app.use(indexUserRoute);
 
 //let us listen to run server
-var server = app.listen(3000);
+var server = app.listen(port);
 
 var io = socket(server);
 io.on('connection', function (socket) {
