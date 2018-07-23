@@ -203,6 +203,8 @@ hasFocus = false;
 		<script src="./../../js/util.js"></script>
 			<script>
 				window.onload = function update() {
+
+					//Ajax call1 to load the onlinestatus
 					$.ajax({
 						type: 'GET',
 						url: "/GetOnlineStatus",
@@ -213,6 +215,19 @@ hasFocus = false;
 							updateAvailabilityStatus(result.Availability, '<%=loggedinEmailId%>');
 						}
 					});
+
+					//Ajax call 2 to load the unread message count
+					// $.ajax({
+					// 	type: 'GET',
+					// 	url: "/GetUnreadMsgs",
+					// 	success: function (result) {
+					// 		//alert(result.status);
+					// 		console.log(result.UnreadMsgs);
+					// 		//display the content on div
+					// 		updateUnreadMsgsCount(result.UnreadMsgs, '<%=loggedinEmailId%>');
+					// 	}
+					// });
+
 				}
 
 

@@ -179,6 +179,35 @@ app.get('/GetOldMessages', function (req, res) {
     });
 });
 
+app.get('/GetUnreadMsgs', function (req, res) {
+    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
+        if (error)
+            return console.log('unable to connect to mongodb server... error : ', error);
+
+        console.log('connected mongodb server successfully!');
+
+        var mongodb = db.db('mychat');
+
+        mongodb.collection('messages').find(
+            {
+                $or: [{ $and: [{ sender: req.query.sender }, { receiver: req.query.receiver }] },
+                { $and: [{ sender: req.query.receiver }, { receiver: req.query.sender }] }]
+            },
+        ).sort({
+            sentDateTime: 1
+        }).toArray(function (err, result) {
+            if (error)
+                return console.log('error while fetching records');
+            console.log('messages count : ' + result.length);
+            console.log(result[0]);
+            res.json({
+                messages: result
+            });
+        });
+        db.close();
+    });
+});
+
 
 app.get('/IsEmailIdExists', function (req, res) {
     console.log('received emailid = ' + req.query.EmailId);

@@ -4,7 +4,7 @@
     socket.emit('join', {
         emailId: '<%=loggedinEmailId%>'
     });
-
+    var intervalIds = {};
     var isStillTyping = false;
     var oldUserTypingStatus = false;
     var messages = $('#txtMessages');
@@ -115,17 +115,19 @@
 
         //show titlebar with username
                 
-        var num = 1;
-        setInterval(function () {
-            if (num == 1) {
-                document.title = data.response.senderName + ' Says...';
-                num++;
+        
+        if (!intervalIds[data.response.sender]) {
+            console.log('going to start interval');
+            console.log(intervalIds[data.response.sender]);
+                var num = 1;
+                intervalIds[data.response.sender] = setInterval(function () {
+                    if (num == 1) {
+                    document.title
+                        = data.response.senderName + ' Says...'; num++;
+                    } else { document.title = 'MyChat - Home'; num = 1; }
+                }, 3000);
             }
-            else {
-                document.title = 'MyChat - Home';
-                num = 1;
-            }
-        }, 3000);
+            
 
         
         //$("#newMessagesText"+senderemail.replace('@','').replace('.','')).css('visibility','visible');
