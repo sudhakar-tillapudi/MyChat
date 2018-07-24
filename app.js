@@ -5,7 +5,7 @@ var app = express();
 var mongoClient = require('mongodb').MongoClient;
 var session = require('express-session');
 
-var port = process.env.port || 3000;
+var port = process.env.PORT || 3000;
 
 //middleware
 app.use(['/css', '/user/css'], express.static('css'));
