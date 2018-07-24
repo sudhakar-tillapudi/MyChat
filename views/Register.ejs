@@ -18,8 +18,9 @@
                                 isEmailValid = true;
                             }
                             else {
-                                $('#emailid').css("background-image", "none");//"url(\"../images/ajax/success.png\")");
-                                //$('#emailid')[0].setCustomValidity('EmailId Already Exists');
+                                //$('#emailid').css("background-image", "none");//"url(\"../images/ajax/success.png\")");
+                                //
+                                $('#emailid').css("background-image", "url(\"../images/ajax/failure.png\")");//  "<img src=\"../../images/ajax/success.png\"/>");$('#emailid')[0].setCustomValidity('EmailId Already Exists');
                                 document.getElementById('emailid').setCustomValidity('EmailId Already Exists');
                                 isEmailValid = false;
                             }

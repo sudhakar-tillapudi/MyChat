@@ -66,6 +66,8 @@ io.on('connection', function (socket) {
 
     socket.on('clientDisconnectedForcibly', function (data) {
         console.log('clientDisconnectedForcibly received');
+        if (!data.emailId)
+            return;
         app.locals.usersAvailability[data.emailId] = false;
         console.log('leaving room '+data.emailId);
         console.log(app.locals.usersAvailability);
@@ -83,6 +85,8 @@ io.on('connection', function (socket) {
 
         //console.log('on disconnection =>' + data);
         //console.log(socket.client);
+        if (!data.emailId)
+            return;
         app.locals.usersAvailability[data.emailId] = false;
         io.sockets.emit('AvailabilityUpdated', {
 
