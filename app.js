@@ -7,6 +7,8 @@ var session = require('express-session');
 
 var port = process.env.PORT || 3000;
 
+console.log(process.env.MONGODBUSERNAME +' and '+process.env.MongoDbPassword);
+
 //middleware
 app.use(['/css', '/user/css'], express.static('css'));
 app.use(['/fonts', '/user/fonts'], express.static('fonts'));
@@ -59,7 +61,6 @@ io.on('connection', function (socket) {
         app.locals.usersAvailability[data.emailId] = true;
         console.log('AvailabilityUpdated emitting');
         io.sockets.emit('AvailabilityUpdated', {
-
             Availability: app.locals.usersAvailability
         });
     });
@@ -130,7 +131,7 @@ app.get('/GetOnlineStatus', function (req, res) {
 })
 
 app.get('/ValidateUserLogin', function (req, res) {
-    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
+    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
@@ -158,7 +159,7 @@ app.get('/ValidateUserLogin', function (req, res) {
 });
 
 app.get('/GetOldMessages', function (req, res) {
-    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
+    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
@@ -187,7 +188,7 @@ app.get('/GetOldMessages', function (req, res) {
 });
 
 app.get('/GetUnreadMsgs', function (req, res) {
-    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
+    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
@@ -222,7 +223,7 @@ app.get('/IsEmailIdExists', function (req, res) {
     //check wether emailid is valid or not.
 
 
-    mongoClient.connect("mongodb://localhost:27017", function (error, db) {
+    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
