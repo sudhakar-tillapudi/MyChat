@@ -39,8 +39,12 @@
 
 		window.onfocus = function () {
 			hasFocus = true;
+			console.log('got window focus');
+			console.log('currentviewuser'+currentViewingUser);
 			if (currentViewingUser !== '')
+			{
 				messagesReadCompleted(currentViewingUser, '<%=loggedinEmailId%>', hasFocus);
+			}
 		};
 
 		window.onblur = function () {

@@ -54,6 +54,7 @@ function messagesReadCompleted(sender, receiver, hasfocus) {
             clearInterval(intervalIds[sender]);
             intervalIds[sender] = null;
             //send socket message to server
+            console.log('sending msg-read-completed');
             socket.emit('msg-read-completed', {
                 sender: sender,
                 receiver: receiver,

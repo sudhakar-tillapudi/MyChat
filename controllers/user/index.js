@@ -7,14 +7,14 @@ miniapp.get(['/user','/user/index'],function(req, res, next)
 {
     
     req.app.locals.PageName = 'Chat';
-    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
+    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         
     if (error)
         return console.log('unable to connect to mongodb server... error : ', error);
 
     console.log('connected to mongodb server successfully!');
 
-    var mongodb = db.db('mychat');
+    var mongodb = db.db('sudhamychat');
     console.log('finding other than :'+ req.session.emailId + ' emails');
     mongodb.collection('users').find({
         _id:{'$ne':req.session.emailId}

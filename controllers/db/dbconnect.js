@@ -1,12 +1,12 @@
 var mongoClient = require('mongodb').MongoClient;
 
-mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
+mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
     if (error)
         return console.log('unable to connect to mongodb server... error : ', error);
 
     console.log('connected mongodb server successfully!');
 
-    var mongodb = db.db('mychat');
+    var mongodb = db.db('sudhamychat');
     mongodb.collection('users').insertOne({
         name: "Sudhakar",
         EmailId: "sudha@gmail.com"

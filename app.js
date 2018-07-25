@@ -118,6 +118,7 @@ io.on('connection', function (socket) {
 
     socket.on('msg-read-completed',function(data){
         console.log('msg-read-completed received');
+        console.log(data);
         require('./controllers/chat/handle-msg-read-completed')(data, io);
     });
     console.log('made socket connection');
@@ -131,13 +132,14 @@ app.get('/GetOnlineStatus', function (req, res) {
 })
 
 app.get('/ValidateUserLogin', function (req, res) {
-    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
+    console.log('login req came!');
+    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
         console.log('connected mongodb server successfully!');
 
-        var mongodb = db.db('mychat');
+        var mongodb = db.db('sudhamychat');
 
         mongodb.collection('users').find({
             _id: req.query.emailid,
@@ -159,13 +161,13 @@ app.get('/ValidateUserLogin', function (req, res) {
 });
 
 app.get('/GetOldMessages', function (req, res) {
-    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
+    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
         console.log('connected mongodb server successfully!');
 
-        var mongodb = db.db('mychat');
+        var mongodb = db.db('sudhamychat');
 
         mongodb.collection('messages').find(
             {
@@ -188,13 +190,13 @@ app.get('/GetOldMessages', function (req, res) {
 });
 
 app.get('/GetUnreadMsgs', function (req, res) {
-    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
+    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
         console.log('connected mongodb server successfully!');
 
-        var mongodb = db.db('mychat');
+        var mongodb = db.db('sudhamychat');
 
         mongodb.collection('messages').find(
             {
@@ -223,13 +225,13 @@ app.get('/IsEmailIdExists', function (req, res) {
     //check wether emailid is valid or not.
 
 
-    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, db) {
+    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
         console.log('connected mongodb server successfully!');
 
-        var mongodb = db.db('mychat');
+        var mongodb = db.db('sudhamychat');
         mongodb.collection('users').find({
             _id: req.query.EmailId
         }).count(function (err, result) {

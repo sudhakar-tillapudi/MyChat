@@ -1,5 +1,5 @@
 <script>
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect();
 
     socket.emit('join', {
         emailId: '<%=loggedinEmailId%>'
@@ -157,7 +157,7 @@
     });
 
 socket.on('msg-read-completed-response',function(data){
-    console.log(data.readCompletedTimestamp);
+    console.log("received msg-read-completed-response =>"+data.readCompletedTimestamp);
     $('.'+getPlainEmailId(data.sender)+"msgReadTick").show();
 });
 

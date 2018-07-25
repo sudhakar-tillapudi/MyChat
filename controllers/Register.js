@@ -19,13 +19,14 @@ miniapp.post('/ValidateUserRegistration',function(req, res, next)
 
     //save user info in the mongodb
     var mongoClient = require('mongodb').MongoClient;
-    mongoClient.connect("mongodb://process.env.MongoDbUserName:process.env.MongoDbPassword@ds247141.mlab.com:47141", function (error, client) {
+    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, client) {
     if (error)
         return console.log('unable to connect to mongodb server... error : ', error);
 
     console.log('connected mongodb server successfully!');
 
-    var mongodb = client.db('mychat');
+
+    var mongodb = client.db('sudhamychat');
     mongodb.collection('users').insertOne({
         _id:req.body.emailid,
         name: req.body.name,
