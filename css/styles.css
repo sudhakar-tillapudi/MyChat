@@ -4,7 +4,15 @@
 /* ::-webkit-scrollbar {
   width: 9px;
 } */
-
+.footer {
+  background-color:transparent;
+    position:fixed;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    height:30px;
+    margin-bottom:0px;
+}
 span.step {
   background: #6D9D47;
   border-radius: 0em;

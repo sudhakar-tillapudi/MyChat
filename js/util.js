@@ -38,7 +38,9 @@ function updateUnreadMsgsCount(UnreadMsgs, loggedinEmailId) {
 }
 
 function getPlainEmailId(emailId) {
-    return emailId.replace('@', '').replace('.', '');
+    var regexAtSymbol = new RegExp('@','g');
+    var regexDotSymbol = new RegExp('.','g');
+    return emailId.replace(regexAtSymbol,'').replace(regexDotSymbol,'');
 }
 
 function messagesReadCompleted(sender, receiver, hasfocus) {
