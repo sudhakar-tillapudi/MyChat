@@ -154,15 +154,15 @@
   {%>
 							<a class="list-group-item chatitem" id="<%=Users[i]._id%>" href="javascript:void(0);" onclick="displayChatWindow(this, '<%=Users[i]._id%>', '<%=Users[i].name%>')">
 								<img class="circleImage" src="../../images/<%=Users[i]._id%>.jpg" style="z-index: 2" /> &nbsp;
-								<img id="<%=Users[i]._id.replace(/@/g,'').replace(/./g,'')%>OnlineStatus" style="width:12px;height:12px;z-index: 1;position:absolute;top:38px;left:38px;visibility:hidden"
+								<img id="<%=Users[i]._id.split('@').join('').split('.').join('')%>OnlineStatus" style="width:12px;height:12px;z-index: 1;position:absolute;top:38px;left:38px;visibility:hidden"
 								 src="../../images/ajax/online.png" />
 
 
 								<span style="color: midnightblue;">
 									<%=Users[i].name%>
 								</span>
-								<span id="newMessagesCount<%=Users[i]._id.replace(/@/g,'').replace(/./g,'')%>" class="step" style="position: absolute;left : 38px;top:9px;visibility: hidden;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: 12px;">0</span>
-								<span id="newMessagesText<%=Users[i]._id.replace(/@/g,'').replace(/./g,'')%>" style="position: absolute;left : 75px;top:45px;font-size: 11px;visibility: hidden;font-weight: bold;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;color:green">&nbsp; New Messages</span>
+								<span id="newMessagesCount<%=Users[i]._id.split('@').join('').split('.').join('')%>" class="step" style="position: absolute;left : 38px;top:9px;visibility: hidden;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: 12px;">0</span>
+								<span id="newMessagesText<%=Users[i]._id.split('@').join('').split('.').join('')%>" style="position: absolute;left : 75px;top:45px;font-size: 11px;visibility: hidden;font-weight: bold;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;color:green">&nbsp; New Messages</span>
 
 
 							</a>
