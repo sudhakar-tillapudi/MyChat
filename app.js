@@ -133,7 +133,7 @@ app.get('/GetOnlineStatus', function (req, res) {
 
 app.get('/ValidateUserLogin', function (req, res) {
     console.log('login req came!');
-    //mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
+    //mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
@@ -162,7 +162,7 @@ app.get('/ValidateUserLogin', function (req, res) {
 });
 
 app.get('/GetOldMessages', function (req, res) {
-    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
+    mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
@@ -191,7 +191,7 @@ app.get('/GetOldMessages', function (req, res) {
 });
 
 app.get('/GetUnreadMsgs', function (req, res) {
-    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
+    mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 
@@ -226,7 +226,7 @@ app.get('/IsEmailIdExists', function (req, res) {
     //check wether emailid is valid or not.
 
 
-    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
+    mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         if (error)
             return console.log('unable to connect to mongodb server... error : ', error);
 

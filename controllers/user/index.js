@@ -7,7 +7,7 @@ miniapp.get(['/user','/user/index'],function(req, res, next)
 {
     
     req.app.locals.PageName = 'Chat';
-    mongoClient.connect("mongodb://"+process.env.MongoDbUserName+":"+process.env.MongoDbPassword+"@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
+    mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudhamychat", function (error, db) {
         
     if (error)
         return console.log('unable to connect to mongodb server... error : ', error);
