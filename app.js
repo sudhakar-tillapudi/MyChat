@@ -57,14 +57,20 @@ io.on('connection', function (socket) {
         if (!data.emailId)
             return;
         console.log('joining ' + data.emailId);
-        socket.join(data.emailId);
+        socket.join(data.emailId,function(){
         app.locals.usersAvailability[data.emailId] = true;
         console.log('AvailabilityUpdated emitting');
+        updateAvailability();
+    });
+    });
+
+    function updateAvailability()
+    {
         io.sockets.emit('AvailabilityUpdated', {
             Availability: app.locals.usersAvailability
         });
-    });
-
+    }
+    setInterval(updateAvailability,3000);
     socket.on('clientDisconnectedForcibly', function (data) {
         console.log('clientDisconnectedForcibly received');
         if (!data.emailId)
