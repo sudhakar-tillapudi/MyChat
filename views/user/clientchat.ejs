@@ -95,6 +95,7 @@
         var unreadMsgCount = parseInt(unreadMsgCount);
         $("#newMessagesCount"+senderPlainEmailId).text(++unreadMsgCount);
         $("#newMessagesCount"+senderPlainEmailId).css('visibility','visible');
+        $("#UserHeader").css("border-color","green");
         if(hasFocus)
 			{
                 if(currentViewingUser === data.response.sender)

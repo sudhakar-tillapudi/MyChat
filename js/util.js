@@ -51,7 +51,7 @@ function messagesReadCompleted(sender, receiver, hasfocus) {
             var senderPlainEmailId = getPlainEmailId(sender);
             $("#newMessagesCount" + senderPlainEmailId).text('0');
             $("#newMessagesCount" + senderPlainEmailId).css('visibility', 'hidden');
-
+            $("#UserHeader").css("border-color","lightgray");
             document.title = 'MyChat - Home';
             console.log(intervalIds);
             clearInterval(intervalIds[sender]);
