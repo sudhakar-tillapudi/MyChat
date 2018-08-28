@@ -70,7 +70,7 @@ io.on('connection', function (socket) {
             Availability: app.locals.usersAvailability
         });
     }
-    setInterval(updateAvailability,10000);
+    setInterval(updateAvailability,3000);
     socket.on('clientDisconnectedForcibly', function (data) {
         console.log('clientDisconnectedForcibly received');
         if (!data.emailId)
@@ -175,7 +175,7 @@ app.get('/GetOldMessages', function (req, res) {
         console.log('connected mongodb server successfully!');
 
         var mongodb = db.db('sudhamychat');
-
+        console.log('fetching records sender :  '+req.query.sender+ ' , receiver : '+req.query.receiver);
         mongodb.collection('messages').find(
             {
                 $or: [{ $and: [{ sender: req.query.sender }, { receiver: req.query.receiver }] },
@@ -239,6 +239,7 @@ app.get('/IsEmailIdExists', function (req, res) {
         console.log('connected mongodb server successfully!');
 
         var mongodb = db.db('sudhamychat');
+        
         mongodb.collection('users').find({
             _id: req.query.EmailId
         }).count(function (err, result) {

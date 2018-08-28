@@ -13,7 +13,11 @@
     $('#txtMsgBody').keypress(function (event) {
         //alert('key press');
         if (event.keyCode == 10 || event.keyCode == 13) {
+
             event.preventDefault();
+            var msg = $('#txtMsgBody').val().trim();
+            if(msg === '')
+                return;
             var today = new Date();
             var msgDateTime = today.getDate() + "-" + (today.getMonth() + 1) + "-" + today.getFullYear() + " " +
                 today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -28,7 +32,7 @@
                 receiverName: $('#titleName').text()
                 //msgDateTime : msgDateTime
             });
-            var msg = $('#txtMsgBody').val();
+            
             $('#txtMsgBody').val('');
 
             var convertedDate = today.toLocaleString("en-US", options) + ", " + today.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
