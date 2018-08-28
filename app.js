@@ -70,7 +70,7 @@ io.on('connection', function (socket) {
             Availability: app.locals.usersAvailability
         });
     }
-    setInterval(updateAvailability,3000);
+    setInterval(updateAvailability,10000);
     socket.on('clientDisconnectedForcibly', function (data) {
         console.log('clientDisconnectedForcibly received');
         if (!data.emailId)
