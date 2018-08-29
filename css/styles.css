@@ -4,6 +4,23 @@
 /* ::-webkit-scrollbar {
   width: 9px;
 } */
+.sender-chat-bubble{
+  display: inline-block;
+  background-color:white;
+  color:black;
+  padding:10px;
+  border-radius:40px;
+  margin-right: 5px;
+ }
+ .receiver-chat-bubble{
+  display: inline-block;
+  background-color:#4285F4;
+  color:white;
+  padding:10px;
+  border-radius:40px;
+  margin-left: 5px;
+ }
+
 .footer {
   background-color:transparent;
     position:fixed;
