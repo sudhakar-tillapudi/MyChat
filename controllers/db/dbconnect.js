@@ -14,7 +14,8 @@ mongoClient.connect("mongodb://sudhakar:sudhakar333@ds247141.mlab.com:47141/sudh
         if (error)
             return console.log('error while creating record');
         console.log(result.ops);
+        db.close();
     });
-    db.close();
+    
 });
 

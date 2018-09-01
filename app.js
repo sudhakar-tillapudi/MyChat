@@ -162,8 +162,9 @@ app.get('/ValidateUserLogin', function (req, res) {
             res.json({
                 status: result.length == 0 ? -1 : 1
             });
+            db.close();
         });
-        db.close();
+        
     });
 });
 
@@ -184,15 +185,16 @@ app.get('/GetOldMessages', function (req, res) {
         ).sort({
             sentDateTime: 1
         }).toArray(function (err, result) {
-            if (error)
-                return console.log('error while fetching records');
+            if (err)
+                return console.log('error while fetching records'+err);
             console.log('messages count : ' + result.length);
             console.log(result[0]);
             res.json({
                 messages: result
             });
+            db.close();
         });
-        db.close();
+        
     });
 });
 
@@ -220,8 +222,11 @@ app.get('/GetUnreadMsgs', function (req, res) {
             res.json({
                 messages: result
             });
+            db.close();
         });
-        db.close();
+
+        
+        
     });
 });
 
@@ -248,9 +253,10 @@ app.get('/IsEmailIdExists', function (req, res) {
             console.log('email count : ' + result);
             res.json({
                 IsValid: result == 0 ? true : false
-            })
+            });
+            db.close();
         });
-        db.close();
+        
     });
 
 });

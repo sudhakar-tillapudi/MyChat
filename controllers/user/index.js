@@ -26,8 +26,9 @@ miniapp.get(['/user','/user/index'],function(req, res, next)
          Users : result,
          Availability : req.app.locals.usersAvailability
      });
+     db.close();
     });
-    db.close();
+    
 });
     
 });

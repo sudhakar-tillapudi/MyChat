@@ -1,0 +1,10 @@
+1.add bubbles for left and right conversation with proper alignments-done
+2.add proper alignment when content is copy pasted.
+3.show existing messages/unread msg count on page load.
+4.remove spaces between messages...
+5.move the signout panel to top
+
+6.Provide following options for each chat:
+a.Clear chat history
+b.Archive
+c.
